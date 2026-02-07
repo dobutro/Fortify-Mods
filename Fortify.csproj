@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -9,8 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="index.html" />
-    <Content Include="styles.css" />
-    <Content Include="script.js" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="index.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="styles.css" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="script.js" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

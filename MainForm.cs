@@ -1,10 +1,15 @@
+using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace Fortify;
 
 public sealed class MainForm : Form
 {
+    private readonly WebView2 _webView;
+
     public MainForm()
     {
         Text = "Fortify Mods";
@@ -13,14 +18,24 @@ public sealed class MainForm : Form
         ForeColor = Color.White;
         ClientSize = new Size(1400, 900);
 
-        var label = new Label
+        _webView = new WebView2
         {
-            Text = "Fortify Mods — WinForms оболочка. UI будет подключён позже.",
-            AutoSize = true,
-            ForeColor = Color.Gainsboro,
-            Location = new Point(24, 24),
+            Dock = DockStyle.Fill,
         };
 
-        Controls.Add(label);
+        Controls.Add(_webView);
+        Load += MainForm_Load;
+    }
+
+    private async void MainForm_Load(object? sender, EventArgs e)
+    {
+        await _webView.EnsureCoreWebView2Async();
+
+        var appRoot = AppContext.BaseDirectory;
+        var indexPath = Path.Combine(appRoot, "index.html");
+        if (File.Exists(indexPath))
+        {
+            _webView.Source = new Uri(indexPath);
+        }
     }
 }

@@ -18,6 +18,7 @@ This is a static frontend, so you can run it in two simple ways:
 ## C# desktop build (.exe)
 
 This project now includes a C# Windows desktop project (WinForms) targeting `net6.0-windows`.
+It uses WebView2 to display the HTML UI, so the WebView2 runtime must be available on the system.
 
 1) Restore dependencies:
    ```bash
