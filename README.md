@@ -15,11 +15,23 @@ This is a static frontend, so you can run it in two simple ways:
      ```
    - Then open: `http://127.0.0.1:8000/index.html`
 
-## удобный запуск / .exe
+## Electron (.exe)
 
-Сейчас приложение — это обычная статическая HTML‑страница. Для полноценного `.exe` (один файл, запуск в отдельном окне) нужен desktop‑обёртка:
+A packaged Windows `.exe` build is available via Electron.
 
-- **Electron** — самый популярный вариант. Можно собрать Windows‑.exe через `electron-builder`.
-- **Tauri** — более лёгкий вариант (Rust + WebView2).
+1) Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Если хотите, я добавлю сборку под Windows (Electron или Tauri) и кнопку/скрипт `npm run build:win`, чтобы получать `.exe` одним действием.
+2) Start the desktop app locally:
+   ```bash
+   npm start
+   ```
+
+3) Build the Windows installer:
+   ```bash
+   npm run build:win
+   ```
+
+The installer will be generated in the `dist/` folder.
