@@ -16,5 +16,7 @@
     <Content Include="index.html" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="styles.css" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="script.js" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="editor.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="editor.js" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

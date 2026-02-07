@@ -1,12 +1,12 @@
 :root {
   color-scheme: dark;
   --bg: #121212;
-  --panel: #1f1f1f;
-  --panel-light: #2a2a2a;
+  --panel: #1b1b1b;
+  --panel-light: #242424;
   --text: #f2f2f2;
   --muted: #b8b8b8;
-  --lime: #a3ff3b;
-  --lime-soft: rgba(163, 255, 59, 0.2);
+  --lime: #b7ff4f;
+  --lime-soft: rgba(183, 255, 79, 0.18);
   --border: #383838;
 }
 
@@ -30,13 +30,12 @@ body {
 }
 
 .top-bar {
-  padding: 24px 40px;
+  padding: 20px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  background: rgba(18, 18, 18, 0.8);
-  backdrop-filter: blur(6px);
+  background: #141414;
 }
 
 .brand {
@@ -56,11 +55,10 @@ body {
 }
 
 .logo-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
   background: var(--lime);
-  box-shadow: 0 0 12px var(--lime);
 }
 
 .workspace {
@@ -78,12 +76,12 @@ body {
 }
 
 .menu-card {
-  width: min(900px, 92vw);
+  width: min(960px, 94vw);
   background: var(--panel);
-  border-radius: 18px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  padding: 32px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  padding: 28px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
 .menu-header {
@@ -100,9 +98,10 @@ body {
 .status-pill {
   background: var(--panel-light);
   border: 1px solid var(--border);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
 }
 
 .menu-content {
@@ -123,8 +122,8 @@ body {
 .project-card {
   border: 1px solid var(--border);
   background: var(--panel-light);
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: 8px;
+  padding: 14px;
   display: flex;
   gap: 16px;
   align-items: center;
@@ -134,13 +133,13 @@ body {
 
 .project-card:hover {
   border-color: var(--lime);
-  box-shadow: 0 0 0 1px var(--lime-soft);
+  box-shadow: inset 0 0 0 1px var(--lime-soft);
 }
 
 .project-thumb {
   width: 72px;
   height: 72px;
-  border-radius: 12px;
+  border-radius: 6px;
   background: #0f0f0f;
   display: grid;
   place-items: center;
@@ -170,9 +169,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: rgba(18, 18, 18, 0.5);
+  background: #171717;
   padding: 20px;
-  border-radius: 16px;
+  border-radius: 10px;
   border: 1px solid var(--border);
 }
 
@@ -189,9 +188,9 @@ label {
 
 input[type="text"],
 input[type="file"] {
-  background: var(--panel-light);
+  background: #1d1d1d;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 10px 12px;
   color: var(--text);
 }
@@ -199,7 +198,7 @@ input[type="file"] {
 input[type="text"]:focus,
 input[type="file"]:focus {
   outline: 2px solid var(--lime);
-  border-color: transparent;
+  border-color: var(--lime);
 }
 
 small {
@@ -215,7 +214,7 @@ small {
 
 .ghost-button,
 .lime-button {
-  border-radius: 999px;
+  border-radius: 6px;
   padding: 10px 18px;
   border: 1px solid var(--border);
   background: transparent;
@@ -236,7 +235,7 @@ small {
 }
 
 .lime-button:hover {
-  box-shadow: 0 0 12px var(--lime);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .form-error {
@@ -245,43 +244,42 @@ small {
   font-size: 13px;
 }
 
-.editor {
-  position: absolute;
-  inset: 0;
-  background: #0c0c0c;
-  padding: 32px 40px;
-  display: none;
+.editor-shell {
+  min-height: 100vh;
+  display: flex;
   flex-direction: column;
-  gap: 24px;
+  background: #0f0f0f;
 }
 
-.editor.active {
+.editor-bar {
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+  background: #141414;
   display: flex;
-}
-
-.editor-header {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.editor-header p {
+.editor-bar p {
   color: var(--muted);
 }
 
-.editor-body {
+.editor-stage {
   flex: 1;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, #1d1d1d, #111);
   display: grid;
   place-items: center;
+  padding: 32px;
+  background: #0f0f0f;
 }
 
 .editor-placeholder {
   text-align: center;
   max-width: 420px;
   color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 28px;
+  background: #141414;
 }
 
 .editor-placeholder h3 {
@@ -290,10 +288,10 @@ small {
 }
 
 .editor-icon {
-  font-size: 32px;
+  font-size: 28px;
   background: var(--panel-light);
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: 8px;
+  padding: 12px 14px;
   display: inline-block;
 }
 

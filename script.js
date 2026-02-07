@@ -2,11 +2,7 @@ const projectForm = document.getElementById("project-form");
 const projectList = document.getElementById("project-list");
 const projectCount = document.getElementById("project-count");
 const formError = document.getElementById("form-error");
-const editor = document.getElementById("editor");
 const menu = document.getElementById("project-menu");
-const editorTitle = document.getElementById("editor-title");
-const editorSubtitle = document.getElementById("editor-subtitle");
-const closeEditorButton = document.getElementById("close-editor");
 const openMenuButton = document.getElementById("open-menu");
 
 const STORAGE_KEY = "fortify-mods-projects";
@@ -92,20 +88,31 @@ const validateAppName = (value, projects) => {
   return "";
 };
 
+let editorWindow = null;
+let editorWatcher = null;
+
 const openEditor = (project) => {
-  editorTitle.textContent = project.displayName || project.appName;
-  editorSubtitle.textContent = `Файлы проекта "${project.appName}" готовы к работе.`;
-  editor.classList.add("active");
-  editor.setAttribute("aria-hidden", "false");
+  const params = new URLSearchParams({
+    displayName: project.displayName,
+    appName: project.appName,
+  });
+  editorWindow = window.open(`editor.html?${params.toString()}`, "_blank");
   menu.classList.add("hidden");
   menu.setAttribute("aria-hidden", "true");
-};
 
-const closeEditor = () => {
-  editor.classList.remove("active");
-  editor.setAttribute("aria-hidden", "true");
-  menu.classList.remove("hidden");
-  menu.setAttribute("aria-hidden", "false");
+  if (editorWatcher) {
+    clearInterval(editorWatcher);
+  }
+
+  editorWatcher = window.setInterval(() => {
+    if (!editorWindow || editorWindow.closed) {
+      clearInterval(editorWatcher);
+      editorWatcher = null;
+      editorWindow = null;
+      menu.classList.remove("hidden");
+      menu.setAttribute("aria-hidden", "false");
+    }
+  }, 500);
 };
 
 const createProject = (event) => {
@@ -156,9 +163,15 @@ const finalizeProject = (projects, displayName, appName, image) => {
   openEditor(project);
 };
 
+const showMenuIfAvailable = () => {
+  if (!editorWindow || editorWindow.closed) {
+    menu.classList.remove("hidden");
+    menu.setAttribute("aria-hidden", "false");
+  }
+};
+
 projectForm.addEventListener("submit", createProject);
 projectForm.addEventListener("reset", resetFormError);
-closeEditorButton.addEventListener("click", closeEditor);
-openMenuButton.addEventListener("click", closeEditor);
+openMenuButton.addEventListener("click", showMenuIfAvailable);
 
 renderProjects();
