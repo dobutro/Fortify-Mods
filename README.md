@@ -15,23 +15,18 @@ This is a static frontend, so you can run it in two simple ways:
      ```
    - Then open: `http://127.0.0.1:8000/index.html`
 
-## Electron (.exe)
+## C# desktop build (.exe)
 
-A packaged Windows `.exe` build is available via Electron.
+This project now includes a C# Windows desktop project (WinForms) targeting `net6.0-windows`.
 
-1) Install dependencies:
+1) Restore dependencies:
    ```bash
-   npm install
+   dotnet restore
    ```
 
-2) Start the desktop app locally:
+2) Build the app:
    ```bash
-   npm start
+   dotnet build
    ```
 
-3) Build the Windows installer:
-   ```bash
-   npm run build:win
-   ```
-
-The installer will be generated in the `dist/` folder.
+The executable will be available in `bin/Debug/net6.0-windows/` (or `bin/Release/net6.0-windows/`).
