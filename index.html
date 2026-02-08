@@ -7,63 +7,91 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app">
-      <header class="top-bar">
-        <div class="brand">
-          <span class="logo-dot"></span>
-          <div>
-            <h1>Fortify Mods</h1>
-            <p>Создавайте моды для Forts без единой строчки кода.</p>
-          </div>
-        </div>
-        <button class="ghost-button" id="open-menu">Меню проектов</button>
-      </header>
-
+    <div class="app app-centered">
       <main class="workspace">
-        <section class="menu" id="project-menu" aria-hidden="false">
-          <div class="menu-card">
-            <div class="menu-header">
-              <div>
-                <h2>Проекты</h2>
-                <p>Выберите существующий проект или создайте новый.</p>
+        <section class="main-menu" id="main-menu" aria-hidden="false">
+          <div class="main-card">
+            <div class="main-heading">
+              <h1>Fortify</h1>
+              <p>Удобный редактор модов для Forts.</p>
+            </div>
+            <div class="main-actions">
+              <button class="lime-button" id="open-projects">Мои проекты</button>
+              <button class="ghost-button" id="open-create">Создать проект</button>
+            </div>
+          </div>
+          <button class="settings-button" id="open-settings">Настройки</button>
+        </section>
+
+        <section class="projects-view hidden" id="projects-view" aria-hidden="true">
+          <header class="panel-header">
+            <div>
+              <h2>Мои проекты</h2>
+              <p>Просматривайте и редактируйте созданные проекты.</p>
+            </div>
+            <div class="panel-actions">
+              <button class="ghost-button" id="back-to-main">Назад</button>
+              <button class="lime-button" id="create-from-projects">Создать</button>
+            </div>
+          </header>
+          <div class="projects-grid" id="project-list"></div>
+        </section>
+
+        <section class="modal hidden" id="create-modal" aria-hidden="true">
+          <div class="modal-card">
+            <header>
+              <h3>Создать проект</h3>
+              <p>Заполните данные и выберите тип проекта.</p>
+            </header>
+
+            <form class="project-form" id="project-form">
+              <div class="form-row">
+                <label>Вид проекта</label>
+                <div class="chip-row">
+                  <label class="chip">
+                    <input type="radio" name="project-type" value="company" disabled />
+                    Компания
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="project-type" value="mod" checked />
+                    Мод
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="project-type" value="map" disabled />
+                    Тема для карты
+                  </label>
+                </div>
               </div>
-              <span class="status-pill" id="project-count">0 проектов</span>
-            </div>
 
-            <div class="menu-content">
-              <div class="project-list" id="project-list"></div>
+              <div class="form-row">
+                <label for="project-name">Внешнее имя</label>
+                <input type="text" id="project-name" placeholder="Например: Полётный арсенал" />
+              </div>
 
-              <form class="project-form" id="project-form">
-                <div class="form-row">
-                  <label for="project-name">Название проекта (необязательно)</label>
-                  <input type="text" id="project-name" placeholder="Например: Полётный арсенал" />
-                </div>
+              <div class="form-row">
+                <label for="project-app-name">Внутреннее имя *</label>
+                <input
+                  type="text"
+                  id="project-app-name"
+                  placeholder="fortify_mod"
+                  required
+                  pattern="[a-z_]+"
+                  title="Только английские строчные буквы и знак _"
+                />
+                <small>Только английские строчные буквы и знак _. Название должно быть уникальным.</small>
+              </div>
 
-                <div class="form-row">
-                  <label for="project-app-name">Название проекта внутри приложения *</label>
-                  <input
-                    type="text"
-                    id="project-app-name"
-                    placeholder="fortify_mod"
-                    required
-                    pattern="[a-z_]+"
-                    title="Только английские строчные буквы и знак _"
-                  />
-                  <small>Только английские строчные буквы и знак _. Название должно быть уникальным.</small>
-                </div>
+              <div class="form-row">
+                <label for="project-image">Картинка (необязательно)</label>
+                <input type="file" id="project-image" accept="image/*" />
+              </div>
 
-                <div class="form-row">
-                  <label for="project-image">Изображение проекта (необязательно)</label>
-                  <input type="file" id="project-image" accept="image/*" />
-                </div>
-
-                <div class="form-actions">
-                  <button type="reset" class="ghost-button">Отменить</button>
-                  <button type="submit" class="lime-button">Создать</button>
-                </div>
-                <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
-              </form>
-            </div>
+              <div class="form-actions">
+                <button type="button" class="ghost-button" id="cancel-create">Отменить</button>
+                <button type="submit" class="lime-button">Создать</button>
+              </div>
+              <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+            </form>
           </div>
         </section>
       </main>

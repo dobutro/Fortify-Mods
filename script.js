@@ -1,9 +1,15 @@
-const projectForm = document.getElementById("project-form");
+const mainMenu = document.getElementById("main-menu");
+const projectsView = document.getElementById("projects-view");
 const projectList = document.getElementById("project-list");
-const projectCount = document.getElementById("project-count");
 const formError = document.getElementById("form-error");
-const menu = document.getElementById("project-menu");
-const openMenuButton = document.getElementById("open-menu");
+const openProjectsButton = document.getElementById("open-projects");
+const openCreateButton = document.getElementById("open-create");
+const openSettingsButton = document.getElementById("open-settings");
+const backToMainButton = document.getElementById("back-to-main");
+const createFromProjectsButton = document.getElementById("create-from-projects");
+const createModal = document.getElementById("create-modal");
+const cancelCreateButton = document.getElementById("cancel-create");
+const projectForm = document.getElementById("project-form");
 
 const STORAGE_KEY = "fortify-mods-projects";
 
@@ -14,10 +20,7 @@ const loadProjects = () => {
   }
   try {
     const parsed = JSON.parse(saved);
-    if (Array.isArray(parsed)) {
-      return parsed;
-    }
-    return [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch (error) {
     return [];
   }
@@ -25,44 +28,6 @@ const loadProjects = () => {
 
 const saveProjects = (projects) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-};
-
-const updateProjectCount = (count) => {
-  projectCount.textContent = `${count} проектов`;
-};
-
-const renderProjects = () => {
-  const projects = loadProjects();
-  projectList.innerHTML = "";
-  if (projects.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "project-card";
-    empty.innerHTML = `
-      <div class="project-thumb">+</div>
-      <div class="project-info">
-        <h3>Нет проектов</h3>
-        <p>Создайте первый проект, чтобы начать работать.</p>
-      </div>
-    `;
-    projectList.appendChild(empty);
-  } else {
-    projects.forEach((project) => {
-      const card = document.createElement("div");
-      card.className = "project-card";
-      card.innerHTML = `
-        <div class="project-thumb">
-          ${project.image ? `<img src="${project.image}" alt="${project.displayName}" />` : "📁"}
-        </div>
-        <div class="project-info">
-          <h3>${project.displayName}</h3>
-          <p>Внутреннее имя: ${project.appName}</p>
-        </div>
-      `;
-      card.addEventListener("click", () => openEditor(project));
-      projectList.appendChild(card);
-    });
-  }
-  updateProjectCount(projects.length);
 };
 
 const resetFormError = () => {
@@ -76,16 +41,45 @@ const showFormError = (message) => {
 const validateAppName = (value, projects) => {
   const regex = /^[a-z_]+$/;
   if (!value) {
-    return "Название проекта внутри приложения обязательно.";
+    return "Внутреннее имя обязательно.";
   }
   if (!regex.test(value)) {
     return "Допустимы только английские строчные буквы и знак _.";
   }
   const duplicate = projects.some((project) => project.appName === value);
   if (duplicate) {
-    return "Такое внутреннее название уже используется другим проектом.";
+    return "Такое внутреннее имя уже используется.";
   }
   return "";
+};
+
+const openMainMenu = () => {
+  mainMenu.classList.remove("hidden");
+  mainMenu.setAttribute("aria-hidden", "false");
+  projectsView.classList.add("hidden");
+  projectsView.setAttribute("aria-hidden", "true");
+  closeCreateModal();
+};
+
+const openProjects = () => {
+  renderProjects();
+  mainMenu.classList.add("hidden");
+  mainMenu.setAttribute("aria-hidden", "true");
+  projectsView.classList.remove("hidden");
+  projectsView.setAttribute("aria-hidden", "false");
+};
+
+const openCreateModal = () => {
+  createModal.classList.remove("hidden");
+  createModal.setAttribute("aria-hidden", "false");
+  resetFormError();
+};
+
+const closeCreateModal = () => {
+  createModal.classList.add("hidden");
+  createModal.setAttribute("aria-hidden", "true");
+  projectForm.reset();
+  resetFormError();
 };
 
 let editorWindow = null;
@@ -97,8 +91,6 @@ const openEditor = (project) => {
     appName: project.appName,
   });
   editorWindow = window.open(`editor.html?${params.toString()}`, "_blank");
-  menu.classList.add("hidden");
-  menu.setAttribute("aria-hidden", "true");
 
   if (editorWatcher) {
     clearInterval(editorWatcher);
@@ -109,10 +101,91 @@ const openEditor = (project) => {
       clearInterval(editorWatcher);
       editorWatcher = null;
       editorWindow = null;
-      menu.classList.remove("hidden");
-      menu.setAttribute("aria-hidden", "false");
+      openProjects();
     }
   }, 500);
+};
+
+const updateProject = (id, updates) => {
+  const projects = loadProjects();
+  const updated = projects.map((project) =>
+    project.id === id ? { ...project, ...updates } : project
+  );
+  saveProjects(updated);
+  renderProjects();
+};
+
+const renderProjects = () => {
+  const projects = loadProjects();
+  projectList.innerHTML = "";
+
+  if (projects.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "project-card";
+    empty.innerHTML = `
+      <div class="project-info">
+        <h3>Проектов пока нет</h3>
+        <p>Создайте первый проект, чтобы начать работу.</p>
+      </div>
+    `;
+    projectList.appendChild(empty);
+    return;
+  }
+
+  projects.forEach((project) => {
+    const card = document.createElement("div");
+    card.className = "project-card";
+    const imageMarkup = project.image
+      ? `<img src="${project.image}" alt="${project.displayName}" />`
+      : "📁";
+
+    card.innerHTML = `
+      <div class="project-header">
+        <div class="project-thumb">${imageMarkup}</div>
+        <div class="project-info">
+          <h3>${project.displayName}</h3>
+          <p>Внутреннее имя: ${project.appName}</p>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Внешнее имя</label>
+        <input type="text" value="${project.displayName}" data-action="rename" />
+      </div>
+      <div class="form-row">
+        <label>Картинка</label>
+        <input type="file" accept="image/*" data-action="image" />
+      </div>
+      <div class="project-actions">
+        <button class="lime-button" data-action="open">Открыть</button>
+      </div>
+    `;
+
+    const renameInput = card.querySelector("input[data-action='rename']");
+    renameInput.addEventListener("change", (event) => {
+      const nextName = event.target.value.trim();
+      updateProject(project.id, {
+        displayName: nextName || project.appName,
+      });
+    });
+
+    const imageInput = card.querySelector("input[data-action='image']");
+    imageInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        updateProject(project.id, { image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    const openButton = card.querySelector("button[data-action='open']");
+    openButton.addEventListener("click", () => openEditor(project));
+
+    projectList.appendChild(card);
+  });
 };
 
 const createProject = (event) => {
@@ -137,8 +210,7 @@ const createProject = (event) => {
   if (imageFile) {
     const reader = new FileReader();
     reader.onload = () => {
-      const imageData = reader.result;
-      finalizeProject(projects, displayName, appName, imageData);
+      finalizeProject(projects, displayName, appName, reader.result);
     };
     reader.readAsDataURL(imageFile);
   } else {
@@ -156,22 +228,19 @@ const finalizeProject = (projects, displayName, appName, image) => {
     projectFile: `${appName}.fortify`,
   };
 
-  const updatedProjects = [project, ...projects];
-  saveProjects(updatedProjects);
-  renderProjects();
-  projectForm.reset();
-  openEditor(project);
+  saveProjects([project, ...projects]);
+  closeCreateModal();
+  openProjects();
 };
 
-const showMenuIfAvailable = () => {
-  if (!editorWindow || editorWindow.closed) {
-    menu.classList.remove("hidden");
-    menu.setAttribute("aria-hidden", "false");
-  }
-};
-
+openProjectsButton.addEventListener("click", openProjects);
+openCreateButton.addEventListener("click", openCreateModal);
+backToMainButton.addEventListener("click", openMainMenu);
+createFromProjectsButton.addEventListener("click", openCreateModal);
+openSettingsButton.addEventListener("click", () => {
+  alert("Настройки будут добавлены позже.");
+});
+cancelCreateButton.addEventListener("click", closeCreateModal);
 projectForm.addEventListener("submit", createProject);
-projectForm.addEventListener("reset", resetFormError);
-openMenuButton.addEventListener("click", showMenuIfAvailable);
 
-renderProjects();
+openMainMenu();

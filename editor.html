@@ -13,15 +13,52 @@
           <h1 id="editor-title">Редактор</h1>
           <p id="editor-subtitle">Заглушка редактора. Здесь позже появятся инструменты.</p>
         </div>
-        <button class="ghost-button" id="close-editor">Закрыть</button>
-      </header>
-      <main class="editor-stage">
-        <div class="editor-placeholder">
-          <div class="editor-icon">⚙️</div>
-          <h3>Редактор Fortify Mods</h3>
-          <p>Пока что это полноэкранная заглушка. После настройки проекта здесь появится визуальный редактор.</p>
+        <div class="create-menu">
+          <button class="lime-button" id="create-button">Создать</button>
+          <div class="create-dropdown" id="create-dropdown">
+            <button type="button">Устройство</button>
+            <button type="button">Оружие</button>
+            <button type="button">Материал</button>
+          </div>
         </div>
-      </main>
+      </header>
+
+      <div class="editor-body">
+        <aside class="editor-sidebar">
+          <div class="sidebar-section">
+            <h4>Структура файлов</h4>
+            <div class="sidebar-list">
+              <div class="sidebar-item">assets/</div>
+              <div class="sidebar-item">data/</div>
+              <div class="sidebar-item">preview.png</div>
+              <div class="sidebar-item">mod.json</div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="editor-stage">
+          <h2>Рабочее место</h2>
+          <div class="tile-grid">
+            <div class="tile">
+              <h3>Устройства</h3>
+              <p>Плитки появятся после создания.</p>
+            </div>
+            <div class="tile">
+              <h3>Оружие</h3>
+              <p>Заглушка для будущего списка.</p>
+            </div>
+            <div class="tile">
+              <h3>Материалы</h3>
+              <p>Здесь будут созданные материалы.</p>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="editor-footer">
+        <p>Настройки проекта (заглушка).</p>
+        <button class="ghost-button" id="close-editor">Закрыть редактор</button>
+      </footer>
     </div>
 
     <script src="editor.js"></script>
