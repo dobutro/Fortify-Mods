@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="index.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="styles.css" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="script.js" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="editor.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="editor.js" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
