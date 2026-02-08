@@ -37,6 +37,205 @@
           <div class="projects-grid" id="project-list"></div>
         </section>
 
+        <section class="settings-view hidden" id="settings-view" aria-hidden="true">
+          <header class="panel-header">
+            <div>
+              <h2>Настройки Fortify</h2>
+              <p>Общие параметры экосистемы и редактора модов.</p>
+            </div>
+            <div class="panel-actions">
+              <button class="ghost-button" id="back-to-main-from-settings">Назад</button>
+            </div>
+          </header>
+
+          <div class="settings-body">
+            <div class="settings-section">
+              <h3>⚙️ Настройки Главного меню Fortify</h3>
+
+              <div class="settings-group">
+                <h4>🎨 Интерфейс</h4>
+                <div class="settings-grid">
+                  <label>Язык интерфейса
+                    <select>
+                      <option>Русский</option>
+                      <option>English</option>
+                    </select>
+                  </label>
+                  <label>Размер шрифта
+                    <select>
+                      <option>Маленький</option>
+                      <option selected>Средний</option>
+                      <option>Большой</option>
+                      <option>Пользовательский (%)</option>
+                    </select>
+                  </label>
+                  <label>Масштаб интерфейса (UI scale)
+                    <input type="range" min="80" max="140" value="100" />
+                  </label>
+                  <label>Тема оформления
+                    <select>
+                      <option>Светлая</option>
+                      <option>Тёмная</option>
+                      <option selected>Серая (по умолчанию)</option>
+                    </select>
+                  </label>
+                  <label>Цвет акцента
+                    <select>
+                      <option selected>Лаймовый</option>
+                      <option>Голубой</option>
+                      <option>Фиолетовый</option>
+                      <option>Пользовательский (позже)</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🧭 Поведение</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" /> Запускать последний открытый редактор</label>
+                  <label class="toggle"><input type="checkbox" checked /> Показывать стартовую страницу при запуске</label>
+                  <label class="toggle"><input type="checkbox" /> Подтверждение при выходе</label>
+                  <label class="toggle"><input type="checkbox" checked /> Автосохранение настроек редакторов</label>
+                  <label class="toggle"><input type="checkbox" checked /> Восстанавливать последнюю сессию</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>📁 Пути и интеграция</h4>
+                <div class="settings-grid">
+                  <label>Путь к Forts
+                    <input type="text" placeholder="C:\\Games\\Forts" />
+                  </label>
+                  <label>Путь к папке mods
+                    <input type="text" placeholder="...\\Forts\\mods" />
+                  </label>
+                  <label>Путь экспорта по умолчанию
+                    <input type="text" placeholder="...\\Forts\\mods" />
+                  </label>
+                  <label class="toggle"><input type="checkbox" checked /> Открывать папку мода после экспорта</label>
+                  <label class="toggle"><input type="checkbox" checked /> Проверять наличие Forts при запуске</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🔔 Уведомления</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" checked /> Показывать уведомления</label>
+                  <label>Звуки интерфейса
+                    <select>
+                      <option>Вкл</option>
+                      <option>Выкл</option>
+                    </select>
+                  </label>
+                  <label>Тип уведомлений
+                    <select>
+                      <option>Минимальные</option>
+                      <option selected>Полные</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🔧 Система</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" checked /> Проверка обновлений Fortify</label>
+                  <label class="toggle"><input type="checkbox" /> Режим разработчика</label>
+                  <label>Логи
+                    <select>
+                      <option>Вкл</option>
+                      <option selected>Выкл</option>
+                    </select>
+                  </label>
+                  <button class="ghost-button danger">Сброс всех настроек</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>🧰 Редактор Модов Fortify — настройки</h3>
+
+              <div class="settings-group">
+                <h4>🧠 Поведение</h4>
+                <div class="settings-grid">
+                  <label>Автосохранение проекта
+                    <select>
+                      <option>Выкл</option>
+                      <option>Каждые 5 мин</option>
+                      <option selected>Каждые 10 мин</option>
+                      <option>Каждые 30 мин</option>
+                    </select>
+                  </label>
+                  <label class="toggle"><input type="checkbox" checked /> Подтверждение при удалении файла</label>
+                  <label class="toggle"><input type="checkbox" checked /> Подтверждение при экспорте</label>
+                  <label class="toggle"><input type="checkbox" checked /> Проверка ошибок перед экспортом (обязательно)</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🧾 Редактирование</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" checked /> Показывать значения по умолчанию</label>
+                  <label class="toggle"><input type="checkbox" checked /> Подсвечивать изменённые поля</label>
+                  <label class="toggle"><input type="checkbox" checked /> Показывать подсказки при наведении</label>
+                  <label class="toggle"><input type="checkbox" checked /> Показывать предупреждения (⚠️)</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🧱 Карточки и интерфейс</h4>
+                <div class="settings-grid">
+                  <label>Размер карточек
+                    <input type="range" min="80" max="140" value="100" />
+                  </label>
+                  <label>Количество колонок сетки
+                    <input type="number" min="2" max="8" value="4" />
+                  </label>
+                  <label>Анимации интерфейса
+                    <select>
+                      <option selected>Полные</option>
+                      <option>Упрощённые</option>
+                      <option>Выкл</option>
+                    </select>
+                  </label>
+                  <label>Скорость анимаций
+                    <input type="range" min="50" max="150" value="100" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🎞️ Подсказки и обучение</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" checked /> Показывать обучающие подсказки</label>
+                  <label class="toggle"><input type="checkbox" checked /> Показывать описание параметров</label>
+                  <label class="toggle"><input type="checkbox" /> Показывать GIF-примеры (заглушки)</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>📦 Экспорт</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" /> Экспортировать только изменённые файлы</label>
+                  <label class="toggle"><input type="checkbox" checked /> Перезаписывать существующий мод</label>
+                  <label class="toggle"><input type="checkbox" /> Добавлять комментарии в Lua</label>
+                  <label class="toggle"><input type="checkbox" checked /> Автоматически открывать папку после экспорта</label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h4>🧪 Для разработчиков</h4>
+                <div class="settings-grid">
+                  <label class="toggle"><input type="checkbox" /> Показ структуры Lua перед экспортом</label>
+                  <label class="toggle"><input type="checkbox" /> Показ логов экспорта</label>
+                  <label class="toggle"><input type="checkbox" /> Экспорт в тестовую папку</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="modal hidden" id="create-modal" aria-hidden="true">
           <div class="modal-card">
             <header>

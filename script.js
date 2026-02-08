@@ -1,11 +1,13 @@
 const mainMenu = document.getElementById("main-menu");
 const projectsView = document.getElementById("projects-view");
+const settingsView = document.getElementById("settings-view");
 const projectList = document.getElementById("project-list");
 const formError = document.getElementById("form-error");
 const openProjectsButton = document.getElementById("open-projects");
 const openCreateButton = document.getElementById("open-create");
 const openSettingsButton = document.getElementById("open-settings");
 const backToMainButton = document.getElementById("back-to-main");
+const backToMainFromSettingsButton = document.getElementById("back-to-main-from-settings");
 const createFromProjectsButton = document.getElementById("create-from-projects");
 const createModal = document.getElementById("create-modal");
 const cancelCreateButton = document.getElementById("cancel-create");
@@ -53,20 +55,27 @@ const validateAppName = (value, projects) => {
   return "";
 };
 
-const openMainMenu = () => {
-  mainMenu.classList.remove("hidden");
-  mainMenu.setAttribute("aria-hidden", "false");
-  projectsView.classList.add("hidden");
-  projectsView.setAttribute("aria-hidden", "true");
+const showSection = (section) => {
+  const sections = [mainMenu, projectsView, settingsView];
+  sections.forEach((item) => {
+    const isActive = item === section;
+    item.classList.toggle("hidden", !isActive);
+    item.setAttribute("aria-hidden", isActive ? "false" : "true");
+  });
   closeCreateModal();
+};
+
+const openMainMenu = () => {
+  showSection(mainMenu);
 };
 
 const openProjects = () => {
   renderProjects();
-  mainMenu.classList.add("hidden");
-  mainMenu.setAttribute("aria-hidden", "true");
-  projectsView.classList.remove("hidden");
-  projectsView.setAttribute("aria-hidden", "false");
+  showSection(projectsView);
+};
+
+const openSettings = () => {
+  showSection(settingsView);
 };
 
 const openCreateModal = () => {
@@ -235,11 +244,10 @@ const finalizeProject = (projects, displayName, appName, image) => {
 
 openProjectsButton.addEventListener("click", openProjects);
 openCreateButton.addEventListener("click", openCreateModal);
+openSettingsButton.addEventListener("click", openSettings);
 backToMainButton.addEventListener("click", openMainMenu);
+backToMainFromSettingsButton.addEventListener("click", openMainMenu);
 createFromProjectsButton.addEventListener("click", openCreateModal);
-openSettingsButton.addEventListener("click", () => {
-  alert("Настройки будут добавлены позже.");
-});
 cancelCreateButton.addEventListener("click", closeCreateModal);
 projectForm.addEventListener("submit", createProject);
 
