@@ -42,7 +42,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .main-menu {
@@ -291,6 +291,10 @@ small {
   display: grid;
   place-items: center;
   padding: 24px;
+}
+
+.modal.hidden {
+  display: none;
 }
 
 .modal-card {
